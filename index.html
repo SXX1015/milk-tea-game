@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>谁请喝奶茶？🥤</title>
+    <style>
+        /* CSS样式：控制网页的外观 */
+        body {
+            font-family: 'Microsoft YaHei', sans-serif;
+            text-align: center;
+            background-color: #fff0f5; /* 浅粉色背景 */
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
+        .container {
+            background-color: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(255, 150, 210, 0.3); /* 粉色阴影 */
+            max-width: 400px;
+            width: 90%;
+        }
+        h1 {
+            color: #e75480;
+            margin-bottom: 10px;
+        }
+        p {
+            color: #666;
+            margin-bottom: 30px;
+        }
+        .name-selector {
+    margin-bottom: 25px;
+}
+.name-selector label {
+    font-weight: bold;
+    color: #e75480;
+    margin-right: 10px;
+}
+#playerName {
+    padding: 8px 12px;
+    border: 2px solid #ff94d0;
+    border-radius: 10px;
+    background-color: white;
+    color: #c72c7a;
+    font-size: 16px;
+    font-weight: bold;
+    outline: none; /* 移除选中时的蓝色边框 */
+}
+#playerName:hover {
+    border-color: #ff4da6;
+}
+        .choices {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 30px;
+        }
+        .choice-btn {
+            font-size: 50px;
+            padding: 15px;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background-color: #f8d7da;
+        }
+        .choice-btn:hover {
+            transform: scale(1.1); /* 鼠标悬停时放大 */
+            background-color: #f1b0b7;
+        }
+        #result {
+            margin-top: 20px;
+            font-size: 20px;
+            font-weight: bold;
+            min-height: 60px;
+            padding: 15px;
+            border-radius: 10px;
+        }
+        .win {
+            color: green;
+            background-color: #e8f6f3;
+        }
+        .lose {
+            color: red;
+            background-color: #fdeded;
+        }
+        .draw {
+            color: orange;
+            background-color: #fff4e5;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>🥤 谁请喝奶茶？ 🥤</h1>
+    <!-- 新增：选择名字的提示和下拉框 -->
+    <p>请先报上名来，然后出拳！</p>
+    <div class="name-selector">
+        <label for="playerName">我是：</label>
+        <select id="playerName">
+            <option value="">--请选择--</option>
+            <option value="娟娟">娟娟</option>
+            <option value="康康">康康</option>
+        </select>
+    </div>
+    <div class="choices">
+        <button class="choice-btn" onclick="playGame('✊')">✊</button>
+        <button class="choice-btn" onclick="playGame('✌️')">✌️</button>
+        <button class="choice-btn" onclick="playGame('✋')">✋</button>
+    </div>
+    <div id="result">请点击上方按钮开始游戏</div>
+</div>
+
+    <script>
+    // JavaScript逻辑：控制游戏规则
+    function playGame(userChoice) {
+        // 1. 获取选择的名字
+        const nameSelect = document.getElementById('playerName');
+        const selectedName = nameSelect.value;
+
+        // 2. 检查是否选择了名字
+        if (selectedName === '') {
+            alert('请先选择你的名字再开始游戏！');
+            return; // 如果没选名字，就停止执行函数
+        }
+
+        const choices = ['✊', '✌️', '✋'];
+        // ！！！ 作弊逻辑：电脑永远出能赢你的那个 ！！！
+        let computerChoice;
+        if (userChoice === '✊') {
+            computerChoice = '✋'; // 用户出石头，电脑出布
+        } else if (userChoice === '✌️') {
+            computerChoice = '✊'; // 用户出剪刀，电脑出石头
+        } else {
+            computerChoice = '✌️'; // 用户出布，电脑出剪刀
+        }
+
+        let resultText = `${selectedName}，你出了：${userChoice}<br>雪雪出了：${computerChoice}<br><br>`;
+        let resultClass = '';
+
+        // 判断胜负（根据作弊逻辑，用户永远输）
+        if (userChoice === computerChoice) {
+            // 理论上不会平局，除非你修改逻辑
+            resultText += "平局！哼，再来一局决定胜负！";
+            resultClass = 'draw';
+        } else {
+            // 用户输，并在结果中加入名字
+            resultText += `😭 ${selectedName} 😭 很遗憾，你输了哈哈哈哈<br>今天这个奶茶你姐我喝定了！🥤`;
+            resultClass = 'lose';
+        }
+
+        // 显示结果
+        const resultElement = document.getElementById('result');
+        resultElement.innerHTML = resultText;
+        resultElement.className = resultClass;
+    }
+</script>
+</body>
+</html>
